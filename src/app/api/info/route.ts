@@ -5,6 +5,23 @@ import ytdl from '@distube/ytdl-core';
 export const maxDuration = 60; // allow up to 1 minute for YouTube fetch on Vercel
 export const dynamic = 'force-dynamic';
 
+// NEW: build request headers once so we can reuse and optionally include a cookie for production where Google may require it
+const buildRequestHeaders = (): Record<string, string> => {
+  const headers: Record<string, string> = {
+    'User-Agent':
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  };
+
+  // Some hosting providers (e.g. Vercel) have their public IP ranges flagged by YouTube and will require
+  // a logged-in session to bypass the "Confirm you're not a robot" gate. Allow supplying a valid YouTube
+  // cookie via an environment variable so the request is authenticated in production environments without
+  // affecting local development.
+  if (process.env.YT_COOKIE) {
+    headers.cookie = process.env.YT_COOKIE;
+  }
+  return headers;
+};
+
 export async function POST(request: NextRequest) {
   try {
     const { url } = await request.json();
@@ -21,13 +38,13 @@ export async function POST(request: NextRequest) {
     let retryCount = 0;
     const maxRetries = 3;
 
+    const requestHeaders = buildRequestHeaders();
+
     while (retryCount < maxRetries) {
       try {
         info = await ytdl.getInfo(cleanUrl, {
           requestOptions: {
-            headers: {
-              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-            }
+            headers: requestHeaders,
           }
         });
         break;

@@ -10,6 +10,18 @@ import path from 'path';
 export const maxDuration = 300; // 5 minutes
 export const dynamic = 'force-dynamic';
 
+// NEW helper to construct headers once per request
+function buildRequestHeaders(): Record<string, string> {
+  const headers: Record<string, string> = {
+    'User-Agent':
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  };
+  if (process.env.YT_COOKIE) {
+    headers.cookie = process.env.YT_COOKIE;
+  }
+  return headers;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { url, format, quality, audioBitrate, videoFormat } = await request.json();
@@ -21,15 +33,15 @@ export async function POST(request: NextRequest) {
     // Clean the URL
     const cleanUrl = url.split('&list=')[0].split('&start_radio=')[0];
 
+    const requestHeaders = buildRequestHeaders();
+
     // Get video info
     let info;
     try {
       info = await ytdl.getInfo(cleanUrl, {
         requestOptions: {
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-          }
-        }
+          headers: requestHeaders,
+        },
       });
     } catch (err: any) {
       console.error('Failed to get video info:', err);
@@ -92,9 +104,12 @@ async function convertAudio({ info, cleanUrl, safeTitle, requestedContainer, req
     return currBit > prevBit ? curr : prev;
   }, audioFormats[0]);
 
+  const requestHeaders = buildRequestHeaders();
+
   const youtubeAudioStream = ytdl(cleanUrl, {
     format: selected,
     highWaterMark: 1024 * 1024 * 32,
+    requestOptions: { headers: requestHeaders },
   });
 
   const { args: ffArgs, mime } = buildAudioFfmpegArgs(requestedContainer, requestedBitrate);
@@ -175,8 +190,10 @@ async function convertVideo({ info, cleanUrl, safeTitle, requestedContainer, req
     return currBit > prevBit ? curr : prev;
   }, audioOnlyFormats[0]);
 
-  const videoStream = ytdl(cleanUrl, { format: selectedVideo, highWaterMark: 1024 * 1024 * 64 });
-  const audioStream = ytdl(cleanUrl, { format: selectedAudio, highWaterMark: 1024 * 1024 * 32 });
+  const requestHeaders = buildRequestHeaders();
+
+  const videoStream = ytdl(cleanUrl, { format: selectedVideo, highWaterMark: 1024 * 1024 * 64, requestOptions: { headers: requestHeaders } });
+  const audioStream = ytdl(cleanUrl, { format: selectedAudio, highWaterMark: 1024 * 1024 * 32, requestOptions: { headers: requestHeaders } });
 
   // ffmpeg merge – construct args (different per container to avoid incompatible codec issues)
   const ffArgs: string[] = [
