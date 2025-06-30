@@ -2,6 +2,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import ytdl from '@distube/ytdl-core';
 
+export const maxDuration = 60; // allow up to 1 minute for YouTube fetch on Vercel
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const { url } = await request.json();
