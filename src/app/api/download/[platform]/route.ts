@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 // Route segment config for static exports
 export const dynamic = 'error';
@@ -12,7 +12,7 @@ export async function generateStaticParams() {
 }
 
 export async function GET(
-  _req: NextRequest,
+  _req: Request,
   { params }: { params: { platform: string } }
 ) {
   if (params.platform !== 'windows') {
