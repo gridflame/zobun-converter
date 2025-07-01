@@ -7,38 +7,15 @@ import { useState } from 'react';
 export default function Download() {
   const [downloading, setDownloading] = useState<string | null>(null);
 
-  const handleDownload = async (platform: string) => {
+  const handleDownload = (platform: string) => {
     setDownloading(platform);
-    
-    try {
-      const response = await fetch(`/api/download/${platform}`);
-      
-      if (response.ok) {
-        const blob = await response.blob();
-        let filename = response.headers.get('Content-Disposition')?.split('filename=')[1] || `zobun-${platform}`;
-        
-        // Remove quotes if present
-        if (filename.startsWith('"') && filename.endsWith('"')) {
-          filename = filename.slice(1, -1);
-        }
-        
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      } else {
-        alert('Download failed. Please try again later.');
-      }
-    } catch (error) {
-      console.error('Download error:', error);
-      alert('Download failed. Please check your connection and try again.');
-    } finally {
-      setDownloading(null);
-    }
+
+    // Navigate to the API route – the browser will follow the 302
+    // and handle the cross-origin file download automatically.
+    window.location.href = `/api/download/${platform}`;
+
+    // Reset state after a short delay so the button returns to normal UI.
+    setTimeout(() => setDownloading(null), 3_000);
   };
 
   return (
