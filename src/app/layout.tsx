@@ -1,19 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const geist = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
-  variable: "--font-inter",
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "zobun - youtube to mp3 & mp4 converter",
-  description: "convert youtube videos to mp3, mp4, webm & more. clean, fast, and free youtube downloader with support for all quality levels.",
+  title: "zobun",
+  description: "convert youtube videos to mp3, mp4, and other formats. simple, fast, and free.",
   icons: {
-    icon: "/zobun2.png",
-    shortcut: "/zobun2.png",
-    apple: "/zobun2.png",
+    icon: "/zobun.ico",
+    apple: "/zobun.png",
   },
 };
 
@@ -24,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} antialiased font-sans`}>
+      <body className={`${geist.variable} ${geistMono.variable} antialiased`}>
         {children}
       </body>
     </html>
