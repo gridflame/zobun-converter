@@ -21,7 +21,7 @@ export default function Terms() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-white mb-4">service description</h2>
             <p className="text-gray-300 mb-4">
-              zobun is a free youtube video conversion service that allows users to convert youtube videos to various audio and video formats.
+              zobun is a free desktop application that allows you to convert youtube videos to various audio and video formats locally on your device.
             </p>
           </section>
 
@@ -33,9 +33,9 @@ export default function Terms() {
             <ul className="list-disc pl-6 text-gray-300 space-y-2">
               <li>download copyrighted content without permission</li>
               <li>use the service for commercial purposes without authorization</li>
-              <li>attempt to overwhelm our servers with excessive requests</li>
-              <li>use automated tools or bots to access our service</li>
-              <li>attempt to reverse engineer or disrupt our service</li>
+              <li>attempt to abuse the application or external video platforms with excessive automated requests</li>
+              <li>use automated tools to exploit or harm the application</li>
+              <li>attempt to reverse engineer, decompile, or tamper with the application</li>
               <li>share or distribute downloaded content that violates copyright laws</li>
             </ul>
           </section>

@@ -53,7 +53,7 @@ export default function Ethics() {
                 we strive for environmental responsibility:
               </p>
               <ul className="list-disc pl-6 text-gray-300 space-y-1">
-                <li>efficient server usage to minimize energy consumption</li>
+                <li>efficient local processing to minimize energy consumption</li>
                 <li>automatic file cleanup to reduce storage waste</li>
                 <li>optimized conversion processes</li>
               </ul>

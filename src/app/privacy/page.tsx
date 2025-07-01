@@ -13,12 +13,11 @@ export default function Privacy() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-white mb-4">information we collect</h2>
             <p className="text-gray-300 mb-4">
-              when you use zobun, we may collect the following information:
+              when you use the zobun desktop application, the following information is handled locally on your device:
             </p>
             <ul className="list-disc pl-6 text-gray-300 space-y-2">
-              <li>youtube urls that you submit for conversion</li>
-              <li>ip address and browser information for security and analytics</li>
-              <li>usage patterns to improve our service</li>
+              <li>youtube urls that you enter for conversion (processed entirely on your device)</li>
+              <li>optional, anonymous crash reports you choose to send</li>
             </ul>
           </section>
 
@@ -41,22 +40,20 @@ export default function Privacy() {
               we take data security seriously:
             </p>
             <ul className="list-disc pl-6 text-gray-300 space-y-2">
-              <li>we do not store converted files permanently on our servers</li>
-              <li>files are automatically deleted after processing</li>
-              <li>we use secure connections (https) for all communications</li>
-              <li>we do not sell or share your personal information with third parties</li>
+              <li>all conversions are performed locally on your device</li>
+              <li>we do not upload your videos or files to any remote server</li>
+              <li>you control where converted files are saved and can delete them at any time</li>
+              <li>we do not sell or share any personal information with third parties</li>
             </ul>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-white mb-4">cookies and tracking</h2>
             <p className="text-gray-300 mb-4">
-              we use minimal cookies and tracking:
+              this desktop application does not use cookies or similar tracking technologies.
             </p>
             <ul className="list-disc pl-6 text-gray-300 space-y-2">
-              <li>essential cookies for site functionality</li>
-              <li>anonymous analytics to understand usage patterns</li>
-              <li>no third-party advertising cookies</li>
+              <li>no cookies are stored or read</li>
             </ul>
           </section>
 
@@ -66,8 +63,8 @@ export default function Privacy() {
               our service interacts with:
             </p>
             <ul className="list-disc pl-6 text-gray-300 space-y-2">
-              <li>youtube (for fetching video information)</li>
-              <li>content delivery networks for improved performance</li>
+              <li>youtube (to fetch video data and streams)</li>
+              <li>open-source libraries such as ffmpeg for media processing</li>
             </ul>
           </section>
 
