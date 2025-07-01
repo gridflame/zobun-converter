@@ -13,9 +13,11 @@ export async function generateStaticParams() {
 
 export async function GET(
   _req: Request,
-  { params }: { params: { platform: string } }
+  { params }: { params: Promise<{ platform: string }> }
 ) {
-  if (params.platform !== 'windows') {
+  const { platform } = await params;
+
+  if (platform !== 'windows') {
     return NextResponse.json({ error: 'Unsupported' }, { status: 400 });
   }
 
